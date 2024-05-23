@@ -1,5 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
 import { Provider } from 'react-redux';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -8,24 +14,32 @@ import HomeScreen from './app/screens/HomeScreen';
 import MapScreen from './app/screens/MapScreen';
 
 const Stack = createNativeStackNavigator();
+
 export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="HomeScreen" component={HomeScreen} />
-          <Stack.Screen name="MapScreen" component={MapScreen} />
-        </Stack.Navigator>
+        <SafeAreaView style={styles.safeArea}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.keyboardAvoidingView}
+          >
+            <Stack.Navigator>
+              <Stack.Screen name="HomeScreen" component={HomeScreen} />
+              <Stack.Screen name="MapScreen" component={MapScreen} />
+            </Stack.Navigator>
+          </KeyboardAvoidingView>
+        </SafeAreaView>
       </NavigationContainer>
     </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
 });
